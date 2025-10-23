@@ -1,0 +1,81 @@
+{
+  "name": "findlay-subaru-prescott-cac-calculator",
+  "version": "1.0.0",
+  "description": "NETRITION CAC Calculator - Customer Acquisition Cost and Lifetime Value calculator for health supplement and nutrition solutions",
+  "main": "cac-calculator.html",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint tests/",
+    "serve": "http-server -p 8080",
+    "dev": "npm run serve"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@testing-library/jest-dom": "^6.1.5",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.55.0",
+    "http-server": "^14.1.1",
+    "jest": "^29.7.0",
+    "jsdom": "^23.0.1"
+  },
+  "type": "module",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "setupFiles": [
+      "<rootDir>/tests/polyfills.js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
+    "testTimeout": 15000,
+    "collectCoverageFrom": [
+      "**/*.{js,html}",
+      "!**/node_modules/**",
+      "!**/tests/**"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "keywords": [
+    "cac-calculator",
+    "customer-acquisition-cost",
+    "customer-lifetime-value",
+    "cltv",
+    "marketing-analytics",
+    "financial-calculator",
+    "unit-economics",
+    "roas",
+    "cost-per-lead",
+    "marketing-roi",
+    "business-metrics",
+    "javascript",
+    "html",
+    "css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dustydean/findlay-subaru-prescott-cac-calculator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dustydean/findlay-subaru-prescott-cac-calculator/issues"
+  },
+  "homepage": "https://github.com/dustydean/findlay-subaru-prescott-cac-calculator#readme",
+  "author": "Test Suite Builder",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
