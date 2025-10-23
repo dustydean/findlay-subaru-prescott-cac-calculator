@@ -973,6 +973,7 @@
 		<div class="top-panel" id="topPanel">
 			<div class="tabs">
 				<div class="tab active" data-tab="basics">Business Basics</div>
+				<div class="tab" data-tab="leadfunnel">Lead Funnel</div>
 				<div class="tab" data-tab="customer">Customer Metrics</div>
 				<div class="tab" data-tab="financial">Financial Targets</div>
 			</div>
@@ -999,6 +1000,41 @@
 							<label for="cosPercent">Cost of Sales as a Percent of Sales (%):</label>
 							<div class="description">Direct costs associated with your products including manufacturing, materials, and direct labor as a percentage of revenue.</div>
 							<input type="number" id="cosPercent" step="0.1" placeholder="Enter percentage (e.g., 53.0)" value="9" required>
+						</div>
+					</div>
+				</div>
+
+				<div id="leadfunnel" class="tab-content">
+					<div class="form-grid">
+						<div class="input-group">
+							<label for="costPerLead">Cost Per Lead (CPL) ($):</label>
+							<div class="description">Average cost to generate one qualified lead (includes all digital advertising spend). Typical range for Subaru: $50-$90 depending on channel (Google, Meta, third-party sites).</div>
+							<input type="number" id="costPerLead" step="1" placeholder="e.g., 70" value="70" required>
+						</div>
+						<div class="input-group">
+							<label for="monthlyLeadVolume">Monthly Lead Volume:</label>
+							<div class="description">Total number of qualified leads generated per month across all sources. Used to calculate total marketing spend and monthly sales projections.</div>
+							<input type="number" id="monthlyLeadVolume" step="10" placeholder="e.g., 150" value="150" required>
+						</div>
+						<div class="input-group">
+							<label for="leadToApptRate">Lead-to-Appointment Rate (%):</label>
+							<div class="description">Percentage of leads that schedule a dealership visit/test drive. Industry benchmark: 20-30%. Findlay's community reputation and transparent pricing suggest higher-end of range.</div>
+							<input type="number" id="leadToApptRate" step="0.1" placeholder="e.g., 28.0" value="28" required>
+						</div>
+						<div class="input-group">
+							<label for="apptShowRate">Appointment Show-Up Rate (%):</label>
+							<div class="description">Percentage of scheduled appointments where customer actually arrives at dealership. Industry standard: 60-75%. Smaller market like Prescott typically sees better show rates.</div>
+							<input type="number" id="apptShowRate" step="0.1" placeholder="e.g., 68.0" value="68" required>
+						</div>
+						<div class="input-group">
+							<label for="testDriveRate">Test Drive Rate (%):</label>
+							<div class="description">Percentage of showroom visitors who take a test drive. Most visitors who show up will test drive. Typical range: 75-85%.</div>
+							<input type="number" id="testDriveRate" step="0.1" placeholder="e.g., 80.0" value="80" required>
+						</div>
+						<div class="input-group">
+							<label for="showroomToSaleRate">Showroom-to-Sale Conversion (%):</label>
+							<div class="description">Percentage of showroom visits that result in a vehicle purchase (same day or within follow-up period). Subaru typical: 20-25%. Findlay's financing help and community ties support higher conversion.</div>
+							<input type="number" id="showroomToSaleRate" step="0.1" placeholder="e.g., 23.0" value="23" required>
 						</div>
 					</div>
 				</div>
@@ -1056,7 +1092,81 @@
 				</div>
 			</div>
 
-			<!-- Group 1: Revenue & Profitability Foundations -->
+	
+		<!-- Group 0: Lead Funnel Metrics (NEW FOR AUTOMOTIVE) -->
+		<div class="metrics-group" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 12px; margin-bottom: 30px;">
+			<h3 class="group-title" style="color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-bottom: 20px;">🚗 Lead Funnel Performance (Automotive-Specific)</h3>
+			<div class="results-grid">
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Cost Per Lead (CPL)</div>
+					<div class="metric-value">$<span id="costPerLeadResult">0</span></div>
+					<div class="metric-explanation">Your actual cost to generate one qualified lead (from input).</div>
+				</div>
+				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Cost Per Appointment</div>
+					<div class="metric-value">$<span id="costPerAppointment">0</span></div>
+					<div class="metric-explanation">CPL ÷ Lead-to-Appointment Rate. What each scheduled visit costs.</div>
+				</div>
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Cost Per Showroom Visit</div>
+					<div class="metric-value">$<span id="costPerShowroomVisit">0</span></div>
+					<div class="metric-explanation">Cost for each customer who actually shows up at dealership.</div>
+				</div>
+				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95); border: 2px solid #667eea;">
+					<div class="metric-label">Cost Per Sale</div>
+					<div class="metric-value" style="font-size: 2.2em; color: #667eea;">$<span id="costPerSaleResult">0</span></div>
+					<div class="metric-explanation">Total marketing cost to close one vehicle sale. Industry target: $500-$2,000.</div>
+				</div>
+			</div>
+			
+			<div class="results-grid" style="margin-top: 20px;">
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Monthly Lead Volume</div>
+					<div class="metric-value"><span id="monthlyLeadVolumeResult">0</span> leads</div>
+					<div class="metric-explanation">Total qualified leads per month (from input).</div>
+				</div>
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Monthly Appointments</div>
+					<div class="metric-value"><span id="monthlyAppointments">0</span> appts</div>
+					<div class="metric-explanation">Leads × Lead-to-Appointment Rate.</div>
+				</div>
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Monthly Showroom Visits</div>
+					<div class="metric-value"><span id="monthlyShowroomVisits">0</span> visits</div>
+					<div class="metric-explanation">Appointments × Show-Up Rate.</div>
+				</div>
+				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Monthly Vehicle Sales</div>
+					<div class="metric-value" style="color: #667eea;"><span id="monthlySalesResult">0</span> vehicles</div>
+					<div class="metric-explanation">Showroom Visits × Conversion Rate.</div>
+				</div>
+			</div>
+			
+			<div class="results-grid" style="margin-top: 20px;">
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Overall Lead-to-Sale Rate</div>
+					<div class="metric-value"><span id="overallLeadToSaleRate">0</span>%</div>
+					<div class="metric-explanation">Percentage of leads that become vehicle purchases. Industry: 2-5%.</div>
+				</div>
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Monthly Marketing Spend</div>
+					<div class="metric-value">$<span id="monthlyMarketingSpend">0</span></div>
+					<div class="metric-explanation">Leads × CPL = Total monthly ad spend.</div>
+				</div>
+				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Monthly Revenue</div>
+					<div class="metric-value">$<span id="monthlyRevenue">0</span></div>
+					<div class="metric-explanation">Monthly Sales × Average Vehicle Price.</div>
+				</div>
+				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95);">
+					<div class="metric-label">Actual ROAS</div>
+					<div class="metric-value"><span id="actualROAS">0</span>x</div>
+					<div class="metric-explanation">Revenue ÷ Marketing Spend. Shows real-world return.</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Group 1: Revenue & Profitability Foundations -->
 			<div class="metrics-group">
 				<h3 class="group-title">Revenue & Profitability Foundations</h3>
 				<div class="results-grid">
@@ -1667,6 +1777,14 @@
 				const returningCustomers = parseFloat(document.getElementById('returningCustomers').value) / 100 || 0;
 				const repeatOrderRate = parseFloat(document.getElementById('repeatOrderRate').value) || 0;
 				const targetNetMargin = parseFloat(document.getElementById('targetNetMargin').value) / 100 || 0;
+				
+				// Lead Funnel Inputs
+				const costPerLead = parseFloat(document.getElementById('costPerLead').value) || 0;
+				const monthlyLeadVolume = parseFloat(document.getElementById('monthlyLeadVolume').value) || 0;
+				const leadToApptRate = parseFloat(document.getElementById('leadToApptRate').value) / 100 || 0;
+				const apptShowRate = parseFloat(document.getElementById('apptShowRate').value) / 100 || 0;
+				const testDriveRate = parseFloat(document.getElementById('testDriveRate').value) / 100 || 0;
+				const showroomToSaleRate = parseFloat(document.getElementById('showroomToSaleRate').value) / 100 || 0;
 
 				// Core calculations
 				const aovPostTaxReturns = aov / (1 + taxRate) * (1 - returnRate);
@@ -1699,6 +1817,33 @@
 				
 				// Update global CAC for CPL model
 				currentProfitDrivenCAC = profitDrivenCAC;
+				
+				// === LEAD FUNNEL CALCULATIONS ===
+				// Calculate funnel progression
+				const monthlyAppointments = monthlyLeadVolume * leadToApptRate;
+				const monthlyShowroomVisits = monthlyAppointments * apptShowRate;
+				const monthlyTestDrives = monthlyShowroomVisits * testDriveRate;
+				const monthlySales = monthlyShowroomVisits * showroomToSaleRate;
+				
+				// Calculate funnel conversion rates
+				const overallLeadToSaleRate = monthlyLeadVolume > 0 ? (monthlySales / monthlyLeadVolume) : 0;
+				
+				// Calculate cost per stage
+				const monthlyMarketingSpend = monthlyLeadVolume * costPerLead;
+				const costPerAppointment = leadToApptRate > 0 ? costPerLead / leadToApptRate : 0;
+				const costPerShowroomVisit = (leadToApptRate * apptShowRate) > 0 ? costPerLead / (leadToApptRate * apptShowRate) : 0;
+				const costPerSale = overallLeadToSaleRate > 0 ? costPerLead / overallLeadToSaleRate : 0;
+				
+				// Calculate monthly revenue and profitability
+				const monthlyRevenue = monthlySales * aov;
+				const monthlyGrossProfit = monthlySales * grossProfitPerOrder;
+				const monthlyOperatingProfit = monthlySales * operatingProfitPerOrder;
+				const monthlyNetProfit = monthlyOperatingProfit - monthlyMarketingSpend;
+				
+				// Calculate ROI metrics
+				const marketingROI = monthlyMarketingSpend > 0 ? (monthlyNetProfit / monthlyMarketingSpend) * 100 : 0;
+				const actualROAS = monthlyMarketingSpend > 0 ? monthlyRevenue / monthlyMarketingSpend : 0;
+				const profitPerMarketingDollar = monthlyMarketingSpend > 0 ? monthlyNetProfit / monthlyMarketingSpend : 0;
 
 				// Update main results UI
 				updateResult('aovPostTaxReturns', aovPostTaxReturns);
@@ -1724,6 +1869,22 @@
 				} else {
 					paybackCard.style.display = 'none';
 				}
+				
+				// Update Lead Funnel Results
+				document.getElementById('costPerLeadResult').textContent = costPerLead.toFixed(0);
+				document.getElementById('costPerAppointment').textContent = costPerAppointment.toFixed(0);
+				document.getElementById('costPerShowroomVisit').textContent = costPerShowroomVisit.toFixed(0);
+				document.getElementById('costPerSaleResult').textContent = costPerSale.toFixed(0);
+				
+				document.getElementById('monthlyLeadVolumeResult').textContent = Math.round(monthlyLeadVolume);
+				document.getElementById('monthlyAppointments').textContent = Math.round(monthlyAppointments);
+				document.getElementById('monthlyShowroomVisits').textContent = Math.round(monthlyShowroomVisits);
+				document.getElementById('monthlySalesResult').textContent = Math.round(monthlySales);
+				
+				document.getElementById('overallLeadToSaleRate').textContent = (overallLeadToSaleRate * 100).toFixed(1);
+				document.getElementById('monthlyMarketingSpend').textContent = monthlyMarketingSpend.toFixed(0);
+				document.getElementById('monthlyRevenue').textContent = monthlyRevenue.toFixed(0);
+				document.getElementById('actualROAS').textContent = actualROAS.toFixed(2);
 				
 				// Update CPL Model Section
 				updateResult('cplModelCac', currentProfitDrivenCAC);
