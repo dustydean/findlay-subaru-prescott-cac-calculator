@@ -982,24 +982,24 @@
 				<div id="basics" class="tab-content active">
 					<div class="form-grid">
 						<div class="input-group">
-							<label for="aov">Average Order Value ($):</label>
-							<div class="description">The average amount spent by customers per order before taxes.</div>
-							<input type="number" id="aov" step="100" placeholder="Enter value (e.g., 72)" value="34500" required>
+							<label for="aov">Average Vehicle Selling Price ($):</label>
+							<div class="description">The average transaction price for a vehicle sale (MSRP adjusted for incentives, dealer discounts). For Findlay Subaru, this varies by model: Crosstrek ~$28K, Outback ~$35K, Ascent ~$38K.</div>
+							<input type="number" id="aov" step="100" placeholder="Enter value (e.g., 34500)" value="34500" required>
 						</div>
 						<div class="input-group">
 							<label for="taxRate">Tax Rate (%):</label>
-							<div class="description">The sales tax rate applied to orders. Set to 0 if taxes are passed through to customers.</div>
-							<input type="number" id="taxRate" step="0.1" placeholder="Enter percentage (e.g., 6.5)" value="8.6" required>
+							<div class="description">Arizona sales tax rate (Prescott: 8.6% combined state + county + city). Note: Dealerships typically pass tax through to customers, so this mainly affects revenue reporting calculations.</div>
+							<input type="number" id="taxRate" step="0.1" placeholder="Enter percentage (e.g., 8.6)" value="8.6" required>
 						</div>
 						<div class="input-group">
-							<label for="returnRate">Return Rate (%):</label>
-							<div class="description">Percentage of orders returned (for defects, shipping errors, cancellations, etc.).</div>
-							<input type="number" id="returnRate" step="0.1" placeholder="Enter percentage (e.g., 0.5)" value="0.05" required>
+							<label for="returnRate">Deal Fall-Through Rate (%):</label>
+							<div class="description">Percentage of deals that fall through after initial commitment (financing denied, buyer's remorse, failed inspections). Typical range: 0.05-0.15% with strong dealership processes.</div>
+							<input type="number" id="returnRate" step="0.1" placeholder="Enter percentage (e.g., 0.05)" value="0.05" required>
 						</div>
 						<div class="input-group">
-							<label for="cosPercent">Cost of Sales as a Percent of Sales (%):</label>
-							<div class="description">Direct costs associated with your products including manufacturing, materials, and direct labor as a percentage of revenue.</div>
-							<input type="number" id="cosPercent" step="0.1" placeholder="Enter percentage (e.g., 53.0)" value="9" required>
+							<label for="cosPercent">Vehicle Invoice Cost (% of Selling Price):</label>
+							<div class="description">The dealer invoice cost as a percentage of selling price. For most Subaru models, invoice is 91-93% of MSRP, yielding a 7-9% front-end gross margin. This excludes holdback, incentives, and F&I products.</div>
+							<input type="number" id="cosPercent" step="0.1" placeholder="Enter percentage (e.g., 91.0)" value="91" required>
 						</div>
 					</div>
 				</div>
@@ -1042,19 +1042,29 @@
 				<div id="customer" class="tab-content">
 					<div class="form-grid">
 						<div class="input-group">
-							<label for="returningCustomers">Returning customers (%):</label>
-							<div class="description">Percentage of customers making at least one more purchase over their lifetime.</div>
-							<input type="number" id="returningCustomers" step="0.1" placeholder="e.g., 42.0" value="35" required>
+							<label for="returningCustomers">Repeat Purchase Rate (%):</label>
+							<div class="description">Percentage of customers who return to purchase another vehicle from your dealership. Industry average: 30-40%. Family-owned dealerships like Findlay typically see higher loyalty.</div>
+							<input type="number" id="returningCustomers" step="0.1" placeholder="e.g., 35.0" value="35" required>
 						</div>
 						<div class="input-group">
-							<label for="repeatOrderRate">Repeat order rate (Lifetime):</label>
-							<div class="description">Avg. additional orders from a returning customer over their lifetime.</div>
-							<input type="number" id="repeatOrderRate" step="0.1" placeholder="e.g., 4.2" value="1.2" required>
+							<label for="repeatOrderRate">Additional Vehicles Per Returning Customer:</label>
+							<div class="description">Average number of additional vehicle purchases from a returning customer over their lifetime. Typical automotive: 1.1-1.3 (most buy 1-2 more vehicles).</div>
+							<input type="number" id="repeatOrderRate" step="0.1" placeholder="e.g., 1.2" value="1.2" required>
 						</div>
 						<div class="input-group">
-							<label for="fulfillmentCost">Fulfillment cost per order (Shipping/Handling) ($):</label>
-							<div class="description">The average cost to package, ship, and deliver an order to the customer.</div>
-							<input type="number" id="fulfillmentCost" step="1" placeholder="e.g., 8.25" value="950" required>
+							<label for="fulfillmentCost">Vehicle Prep & Delivery Cost ($):</label>
+							<div class="description">Costs for vehicle prep, PDI (Pre-Delivery Inspection), detailing, transport from port/hub to dealership, and accessories installation. Typical range: $800-$1,200 per vehicle.</div>
+							<input type="number" id="fulfillmentCost" step="50" placeholder="e.g., 950" value="950" required>
+						</div>
+						<div class="input-group">
+							<label for="backendProfit">Back-End Profit Per Sale (F&I) ($):</label>
+							<div class="description">Average profit from Finance & Insurance products: extended warranties, GAP insurance, paint/fabric protection, financing commission. Typical dealership back-end: $1,000-$2,500 per sale.</div>
+							<input type="number" id="backendProfit" step="50" placeholder="e.g., 1500" value="1500" required>
+						</div>
+						<div class="input-group">
+							<label for="serviceLTV">Service Lifetime Value Per Customer ($):</label>
+							<div class="description">Expected service and parts revenue over 5-7 year customer lifecycle (oil changes, maintenance, repairs, accessories). Subaru average: $2,000-$4,000 depending on vehicle type and service retention.</div>
+							<input type="number" id="serviceLTV" step="100" placeholder="e.g., 3000" value="3000" required>
 						</div>
 					</div>
 				</div>
@@ -1172,11 +1182,11 @@
 				<div class="results-grid">
 					<div class="result-card">
 						<div class="metric-label">
-							Average Order Value (Post Tax/Returns)
+							Net Vehicle Revenue (Post Tax/Fall-Throughs)
 							<button class="calc-toggle" data-target="aov-calc">+</button>
 						</div>
 						<div class="metric-value">$<span id="aovPostTaxReturns">0.00</span></div>
-						<div class="metric-explanation">This is your actual revenue per order after accounting for taxes and returns.</div>
+						<div class="metric-explanation">Actual revenue per vehicle sale after accounting for tax and deals that fall through.</div>
 						<div class="calc-details" id="aov-calc">
 							<div class="calc-formula">Formula: AOV ÷ (1 + Tax Rate) × (1 - Return Rate)</div>
 							<div class="calc-step"><strong>Calculation:</strong> <span id="aov-calc-step"></span></div>
@@ -1189,10 +1199,10 @@
 							<button class="calc-toggle" data-target="cltv-calc">+</button>
 						</div>
 						<div class="metric-value">$<span id="customerLifetimeValue">0.00</span></div>
-						<div class="metric-explanation">The total expected revenue from a customer over their relationship with your business. Based on <span id="averageOrderCount">0.00</span> average orders per customer.</div>
+						<div class="metric-explanation">Total expected revenue from a customer including all vehicle purchases (<span id="averageOrderCount">0.00</span> avg vehicles) PLUS service/parts revenue over 5-7 years.</div>
 						<div class="calc-details" id="cltv-calc">
-							<div class="calc-formula">Formula: AOV (Post Tax/Returns) × Average Orders Per Customer</div>
-							<div class="calc-step"><strong>Step 1:</strong> Average Orders = 1 + (Returning Customer % × Repeat Order Rate)</div>
+							<div class="calc-formula">Formula: (Vehicle Revenue × Avg Vehicles Per Customer) + Service LTV</div>
+							<div class="calc-step"><strong>Step 1:</strong> Avg Vehicles = 1 + (Repeat Purchase % × Additional Vehicles)</div>
 							<div class="calc-step"><span id="cltv-calc-step1"></span></div>
 							<div class="calc-step"><strong>Step 2:</strong> CLTV = AOV × Average Orders</div>
 							<div class="calc-step"><span id="cltv-calc-step2"></span></div>
@@ -1228,27 +1238,27 @@
 					</div>
 					<div class="result-card">
 						<div class="metric-label">
-							Gross Profit Per Order
+							Total Gross Profit Per Sale (Front + Back-End)
 							<button class="calc-toggle" data-target="gross-profit-calc">+</button>
 						</div>
 						<div class="metric-value">$<span id="grossProfitPerOrder">0.00</span></div>
-						<div class="metric-explanation">Traditional gross profit from each order: revenue minus cost of goods sold and fulfillment costs only. Excludes G&A and other overhead expenses.</div>
+						<div class="metric-explanation">Total gross profit per vehicle sale including front-end margin (vehicle profit - prep) and back-end profit (F&I products). Excludes G&A overhead.</div>
 						<div class="calc-details" id="gross-profit-calc">
-							<div class="calc-formula">Formula: AOV (Post Tax/Returns) × (1 - Cost of Sales %) - Fulfillment Cost</div>
+							<div class="calc-formula">Formula: [Vehicle Revenue × (1 - Invoice %) - Prep Cost] + Back-End Profit</div>
 							<div class="calc-step"><strong>Calculation:</strong> <span id="gross-profit-calc-step"></span></div>
-							<div class="calc-step"><em>Note: This is the same as Contribution Margin</em></div>
+							<div class="calc-step"><em>Combines vehicle margin with F&I profit</em></div>
 							<div class="calc-result">Result: $<span id="gross-profit-calc-result">0.00</span></div>
 						</div>
 					</div>
 					<div class="result-card">
 						<div class="metric-label">
-							Operating Profit Per Order
+							Operating Profit Per Sale
 							<button class="calc-toggle" data-target="operating-profit-calc">+</button>
 						</div>
 						<div class="metric-value">$<span id="operatingProfitPerOrder">0.00</span></div>
-						<div class="metric-explanation">The operating profit from each order after deducting cost of sales, G&A, and fulfillment costs. This value excludes advertising costs.</div>
+						<div class="metric-explanation">Operating profit per vehicle sale after all direct costs (invoice, prep, G&A) and including F&I profit. Excludes marketing/advertising costs.</div>
 						<div class="calc-details" id="operating-profit-calc">
-							<div class="calc-formula">Formula: AOV (Post Tax/Returns) × (1 - Cost of Sales % - G&A %) - Fulfillment Cost</div>
+							<div class="calc-formula">Formula: [Vehicle Revenue × (1 - Invoice % - G&A %)] - Prep Cost + Back-End Profit</div>
 							<div class="calc-step"><strong>Calculation:</strong> <span id="operating-profit-calc-step"></span></div>
 							<div class="calc-result">Result: $<span id="operating-profit-calc-result">0.00</span></div>
 						</div>
@@ -1259,9 +1269,9 @@
 							<button class="calc-toggle" data-target="lifetime-profit-calc">+</button>
 						</div>
 						<div class="metric-value">$<span id="customerLifetimeProfit">0.00</span></div>
-						<div class="metric-explanation">The total expected operating profit from a customer over their relationship with your business, before acquisition costs.</div>
+						<div class="metric-explanation">Total expected profit from a customer including all vehicle sales over their lifetime PLUS service department revenue (maintenance, repairs, parts).</div>
 						<div class="calc-details" id="lifetime-profit-calc">
-							<div class="calc-formula">Formula: Operating Profit Per Order × Average Orders Per Customer</div>
+							<div class="calc-formula">Formula: (Operating Profit Per Sale × Avg Vehicles Per Customer) + Service LTV</div>
 							<div class="calc-step"><strong>Calculation:</strong> <span id="lifetime-profit-calc-step"></span></div>
 							<div class="calc-result">Result: $<span id="lifetime-profit-calc-result">0.00</span></div>
 						</div>
@@ -1777,6 +1787,8 @@
 				const returningCustomers = parseFloat(document.getElementById('returningCustomers').value) / 100 || 0;
 				const repeatOrderRate = parseFloat(document.getElementById('repeatOrderRate').value) || 0;
 				const targetNetMargin = parseFloat(document.getElementById('targetNetMargin').value) / 100 || 0;
+				const backendProfit = parseFloat(document.getElementById('backendProfit').value) || 0;
+				const serviceLTV = parseFloat(document.getElementById('serviceLTV').value) || 0;
 				
 				// Lead Funnel Inputs
 				const costPerLead = parseFloat(document.getElementById('costPerLead').value) || 0;
@@ -1791,17 +1803,21 @@
 				const grossMarginPercent = (1 - cosPercent) * 100;
 				const contributionMargin = aovPostTaxReturns * (1 - cosPercent) - fulfillmentCost;
 				const contributionMarginPercent = aovPostTaxReturns > 0 ? (contributionMargin / aovPostTaxReturns) * 100 : 0;
-				
-				// True gross profit (revenue - COGS - fulfillment, no G&A)
-				const grossProfitPerOrder = aovPostTaxReturns * (1 - cosPercent) - fulfillmentCost;
-				
-				// Operating profit (includes G&A)
-				const operatingProfitPerOrder = aovPostTaxReturns * (1 - cosPercent - gaPercent) - fulfillmentCost;
-				
+
+				// Front-end gross profit (vehicle margin - prep cost, no F&I)
+				const frontEndGrossProfit = aovPostTaxReturns * (1 - cosPercent) - fulfillmentCost;
+
+				// Total gross profit per sale (includes front-end + back-end F&I profit)
+				const grossProfitPerOrder = frontEndGrossProfit + backendProfit;
+
+				// Operating profit (includes G&A and back-end profit)
+				const operatingProfitPerOrder = aovPostTaxReturns * (1 - cosPercent - gaPercent) - fulfillmentCost + backendProfit;
+
+				// Customer lifetime calculations (includes service revenue)
 				const averageOrdersPerCustomer = 1 + returningCustomers * repeatOrderRate;
-				const customerLifetimeProfit = operatingProfitPerOrder * averageOrdersPerCustomer;
+				const customerLifetimeProfit = operatingProfitPerOrder * averageOrdersPerCustomer + serviceLTV;
 				const breakEvenCAC = customerLifetimeProfit;
-				const customerLifetimeValue = aovPostTaxReturns * averageOrdersPerCustomer;
+				const customerLifetimeValue = aovPostTaxReturns * averageOrdersPerCustomer + serviceLTV;
 				let profitDrivenCAC = customerLifetimeProfit - (customerLifetimeValue * targetNetMargin);
 				
 				// Handle negative CAC (unrealistic scenario)
@@ -2010,16 +2026,26 @@
 			}
 
 			function resetForm() {
-				// Reset to Routine Fitness Enthusiast defaults
-				document.getElementById('aov').value = '72';
-				document.getElementById('taxRate').value = '6.5';
-				document.getElementById('returnRate').value = '0.5';
-				document.getElementById('cosPercent').value = '53';
-				document.getElementById('gaPercent').value = '12';
-				document.getElementById('fulfillmentCost').value = '8.25';
-				document.getElementById('returningCustomers').value = '42';
-				document.getElementById('repeatOrderRate').value = '4.2';
-				document.getElementById('targetNetMargin').value = '13';
+				// Reset to New Subaru SUV Buyer defaults (strongest persona)
+				document.getElementById('aov').value = '34500';
+				document.getElementById('taxRate').value = '8.6';
+				document.getElementById('returnRate').value = '0.05';
+				document.getElementById('cosPercent').value = '91';
+				document.getElementById('gaPercent').value = '10';
+				document.getElementById('fulfillmentCost').value = '950';
+				document.getElementById('returningCustomers').value = '35';
+				document.getElementById('repeatOrderRate').value = '1.2';
+				document.getElementById('targetNetMargin').value = '4';
+				document.getElementById('backendProfit').value = '1500';
+				document.getElementById('serviceLTV').value = '3000';
+
+				// Reset lead funnel fields
+				document.getElementById('costPerLead').value = '70';
+				document.getElementById('monthlyLeadVolume').value = '150';
+				document.getElementById('leadToApptRate').value = '28';
+				document.getElementById('apptShowRate').value = '68';
+				document.getElementById('testDriveRate').value = '80';
+				document.getElementById('showroomToSaleRate').value = '23';
 				
 				const resultIds = ['aovPostTaxReturns', 'grossMarginPercent', 'contributionMargin', 'contributionMarginPercent', 
 								   'grossProfitPerOrder', 'operatingProfitPerOrder', 'profitPerCustomer', 'customerLifetimeValue', 
