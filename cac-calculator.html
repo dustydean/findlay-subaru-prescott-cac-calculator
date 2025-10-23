@@ -690,6 +690,85 @@
 			font-weight: 500;
 		}
 
+		/* Funnel Visualization Styles */
+		.funnel-viz-container {
+			background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+			border-radius: 12px;
+			padding: 30px;
+			margin: 30px 0;
+			box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+		}
+
+		.funnel-title {
+			color: #667eea;
+			font-size: 1.5em;
+			font-weight: 600;
+			margin-bottom: 25px;
+			text-align: center;
+		}
+
+		.funnel-chart {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.funnel-stage {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			position: relative;
+		}
+
+		.funnel-label {
+			min-width: 150px;
+			font-weight: 600;
+			color: #2c3e50;
+			font-size: 0.95em;
+		}
+
+		.funnel-bar-container {
+			flex: 1;
+			position: relative;
+		}
+
+		.funnel-bar {
+			height: 50px;
+			background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 15px;
+			color: white;
+			font-weight: 600;
+			box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+			transition: all 0.3s ease;
+		}
+
+		.funnel-bar:hover {
+			transform: translateX(5px);
+			box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+		}
+
+		.funnel-count {
+			font-size: 1.1em;
+		}
+
+		.funnel-rate {
+			font-size: 0.9em;
+			opacity: 0.9;
+		}
+
+		.funnel-arrow {
+			text-align: center;
+			color: #95a5a6;
+			font-size: 1.5em;
+			height: 20px;
+		}
+
 		/* Waterfall Chart Styles */
 		.waterfall-chart-container {
 			background-color: var(--bg-secondary);
@@ -1172,6 +1251,62 @@
 					<div class="metric-label">Actual ROAS</div>
 					<div class="metric-value"><span id="actualROAS">0</span>x</div>
 					<div class="metric-explanation">Revenue ÷ Marketing Spend. Shows real-world return.</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Funnel Visualization -->
+		<div class="funnel-viz-container">
+			<h3 class="funnel-title">📊 Lead-to-Sale Funnel Progression</h3>
+			<div class="funnel-chart">
+				<div class="funnel-stage">
+					<div class="funnel-label">Monthly Leads</div>
+					<div class="funnel-bar-container">
+						<div class="funnel-bar" id="funnel-leads-bar" style="width: 100%;">
+							<span class="funnel-count"><span id="funnel-leads-count">0</span> leads</span>
+							<span class="funnel-rate">100%</span>
+						</div>
+					</div>
+				</div>
+				<div class="funnel-arrow">↓</div>
+				<div class="funnel-stage">
+					<div class="funnel-label">Appointments</div>
+					<div class="funnel-bar-container">
+						<div class="funnel-bar" id="funnel-appt-bar">
+							<span class="funnel-count"><span id="funnel-appt-count">0</span> appts</span>
+							<span class="funnel-rate"><span id="funnel-appt-rate">0</span>%</span>
+						</div>
+					</div>
+				</div>
+				<div class="funnel-arrow">↓</div>
+				<div class="funnel-stage">
+					<div class="funnel-label">Showroom Visits</div>
+					<div class="funnel-bar-container">
+						<div class="funnel-bar" id="funnel-visits-bar">
+							<span class="funnel-count"><span id="funnel-visits-count">0</span> visits</span>
+							<span class="funnel-rate"><span id="funnel-visits-rate">0</span>%</span>
+						</div>
+					</div>
+				</div>
+				<div class="funnel-arrow">↓</div>
+				<div class="funnel-stage">
+					<div class="funnel-label">Test Drives</div>
+					<div class="funnel-bar-container">
+						<div class="funnel-bar" id="funnel-testdrives-bar">
+							<span class="funnel-count"><span id="funnel-testdrives-count">0</span> drives</span>
+							<span class="funnel-rate"><span id="funnel-testdrives-rate">0</span>%</span>
+						</div>
+					</div>
+				</div>
+				<div class="funnel-arrow">↓</div>
+				<div class="funnel-stage">
+					<div class="funnel-label">Vehicle Sales</div>
+					<div class="funnel-bar-container">
+						<div class="funnel-bar" id="funnel-sales-bar" style="background: linear-gradient(90deg, #27ae60 0%, #229954 100%);">
+							<span class="funnel-count"><span id="funnel-sales-count">0</span> sales</span>
+							<span class="funnel-rate"><span id="funnel-sales-rate">0</span>%</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -1901,7 +2036,10 @@
 				document.getElementById('monthlyMarketingSpend').textContent = monthlyMarketingSpend.toFixed(0);
 				document.getElementById('monthlyRevenue').textContent = monthlyRevenue.toFixed(0);
 				document.getElementById('actualROAS').textContent = actualROAS.toFixed(2);
-				
+
+				// Update Funnel Visualization
+				updateFunnelVisualization(monthlyLeadVolume, monthlyAppointments, monthlyShowroomVisits, monthlyTestDrives, monthlySales);
+
 				// Update CPL Model Section
 				updateResult('cplModelCac', currentProfitDrivenCAC);
 				calculateCPL();
@@ -1923,6 +2061,33 @@
 				} else {
 					showNotification('Calculations completed.');
 				}
+			}
+
+			function updateFunnelVisualization(leads, appointments, visits, testDrives, sales) {
+				// Update counts
+				document.getElementById('funnel-leads-count').textContent = Math.round(leads);
+				document.getElementById('funnel-appt-count').textContent = Math.round(appointments);
+				document.getElementById('funnel-visits-count').textContent = Math.round(visits);
+				document.getElementById('funnel-testdrives-count').textContent = Math.round(testDrives);
+				document.getElementById('funnel-sales-count').textContent = Math.round(sales);
+
+				// Calculate percentages (relative to leads)
+				const apptRate = leads > 0 ? (appointments / leads) * 100 : 0;
+				const visitsRate = leads > 0 ? (visits / leads) * 100 : 0;
+				const testDrivesRate = leads > 0 ? (testDrives / leads) * 100 : 0;
+				const salesRate = leads > 0 ? (sales / leads) * 100 : 0;
+
+				// Update rates
+				document.getElementById('funnel-appt-rate').textContent = apptRate.toFixed(1);
+				document.getElementById('funnel-visits-rate').textContent = visitsRate.toFixed(1);
+				document.getElementById('funnel-testdrives-rate').textContent = testDrivesRate.toFixed(1);
+				document.getElementById('funnel-sales-rate').textContent = salesRate.toFixed(1);
+
+				// Update bar widths (proportional to funnel progression)
+				document.getElementById('funnel-appt-bar').style.width = apptRate + '%';
+				document.getElementById('funnel-visits-bar').style.width = visitsRate + '%';
+				document.getElementById('funnel-testdrives-bar').style.width = testDrivesRate + '%';
+				document.getElementById('funnel-sales-bar').style.width = salesRate + '%';
 			}
 
 			function updateWaterfallChart(aov, cosPercent, fulfillmentCost, totalCAC) {
