@@ -1062,8 +1062,8 @@
 					<div class="form-grid">
 						<div class="input-group">
 							<label for="aov">Average Vehicle Selling Price ($):</label>
-							<div class="description">The average transaction price for a vehicle sale (MSRP adjusted for incentives, dealer discounts). For Findlay Subaru, this varies by model: Crosstrek ~$28K, Outback ~$35K, Ascent ~$38K.</div>
-							<input type="number" id="aov" step="100" placeholder="Enter value (e.g., 34500)" value="34500" required>
+							<div class="description">The average transaction price for a vehicle sale (MSRP adjusted for incentives, dealer discounts). For Findlay Subaru Prescott's mountain market, likely mix: Outbacks ~$36K, Ascents ~$42K, Crosstreks ~$30K.</div>
+							<input type="number" id="aov" step="100" placeholder="Enter value (e.g., 36500)" value="36500" required>
 						</div>
 						<div class="input-group">
 							<label for="taxRate">Tax Rate (%):</label>
@@ -1072,8 +1072,8 @@
 						</div>
 						<div class="input-group">
 							<label for="returnRate">Deal Fall-Through Rate (%):</label>
-							<div class="description">Percentage of deals that fall through after initial commitment (financing denied, buyer's remorse, failed inspections). Typical range: 0.05-0.15% with strong dealership processes.</div>
-							<input type="number" id="returnRate" step="0.1" placeholder="Enter percentage (e.g., 0.05)" value="0.05" required>
+							<div class="description">Percentage of deals that fall through after initial commitment (financing denied, buyer's remorse, failed inspections, trade-in disputes). Industry typical: 3-5%. Well-run dealerships aim for lower end.</div>
+							<input type="number" id="returnRate" step="0.1" placeholder="Enter percentage (e.g., 3.0)" value="3.0" required>
 						</div>
 						<div class="input-group">
 							<label for="cosPercent">Vehicle Invoice Cost (% of Selling Price):</label>
@@ -1092,8 +1092,8 @@
 						</div>
 						<div class="input-group">
 							<label for="monthlyLeadVolume">Monthly Lead Volume:</label>
-							<div class="description">Total number of qualified leads generated per month across all sources. Used to calculate total marketing spend and monthly sales projections.</div>
-							<input type="number" id="monthlyLeadVolume" step="10" placeholder="e.g., 150" value="150" required>
+							<div class="description">Total number of qualified leads generated per month across all sources (Google, Meta, third-party sites). For a Subaru dealership targeting 50-80 vehicle sales/month, need substantial lead volume.</div>
+							<input type="number" id="monthlyLeadVolume" step="10" placeholder="e.g., 280" value="280" required>
 						</div>
 						<div class="input-group">
 							<label for="leadToApptRate">Lead-to-Appointment Rate (%):</label>
@@ -1122,8 +1122,8 @@
 					<div class="form-grid">
 						<div class="input-group">
 							<label for="returningCustomers">Repeat Purchase Rate (%):</label>
-							<div class="description">Percentage of customers who return to purchase another vehicle from your dealership. Industry average: 30-40%. Family-owned dealerships like Findlay typically see higher loyalty.</div>
-							<input type="number" id="returningCustomers" step="0.1" placeholder="e.g., 35.0" value="35" required>
+							<div class="description">Percentage of customers who return to purchase another vehicle from your dealership. Subaru has 60%+ brand loyalty (highest in industry), and Findlay's family-owned, community-focused approach drives even stronger retention.</div>
+							<input type="number" id="returningCustomers" step="0.1" placeholder="e.g., 50.0" value="50" required>
 						</div>
 						<div class="input-group">
 							<label for="repeatOrderRate">Additional Vehicles Per Returning Customer:</label>
@@ -1132,8 +1132,8 @@
 						</div>
 						<div class="input-group">
 							<label for="fulfillmentCost">Vehicle Prep & Delivery Cost ($):</label>
-							<div class="description">Costs for vehicle prep, PDI (Pre-Delivery Inspection), detailing, transport from port/hub to dealership, and accessories installation. Typical range: $800-$1,200 per vehicle.</div>
-							<input type="number" id="fulfillmentCost" step="50" placeholder="e.g., 950" value="950" required>
+							<div class="description">Costs for vehicle prep, PDI (Pre-Delivery Inspection), detailing, transport from port/hub to dealership, and accessories installation. Subaru destination charge: ~$1,195 + PDI labor $200-300 + detailing $100-150.</div>
+							<input type="number" id="fulfillmentCost" step="50" placeholder="e.g., 1250" value="1250" required>
 						</div>
 						<div class="input-group">
 							<label for="backendProfit">Back-End Profit Per Sale (F&I) ($):</label>
@@ -1142,8 +1142,8 @@
 						</div>
 						<div class="input-group">
 							<label for="serviceLTV">Service Lifetime Value Per Customer ($):</label>
-							<div class="description">Expected service and parts revenue over 5-7 year customer lifecycle (oil changes, maintenance, repairs, accessories). Subaru average: $2,000-$4,000 depending on vehicle type and service retention.</div>
-							<input type="number" id="serviceLTV" step="100" placeholder="e.g., 3000" value="3000" required>
+							<div class="description">Expected service and parts profit over 6-year customer lifecycle. Subaru requires regular maintenance (2-3 visits/year @ $250-400 avg). Loyal Subaru owners with Findlay's service focus: 15+ visits × $300-350 avg.</div>
+							<input type="number" id="serviceLTV" step="100" placeholder="e.g., 4800" value="4800" required>
 						</div>
 					</div>
 				</div>
@@ -1183,71 +1183,71 @@
 
 	
 		<!-- Group 0: Lead Funnel Metrics (NEW FOR AUTOMOTIVE) -->
-		<div class="metrics-group" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 12px; margin-bottom: 30px;">
-			<h3 class="group-title" style="color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-bottom: 20px;">🚗 Lead Funnel Performance (Automotive-Specific)</h3>
+		<div class="metrics-group">
+			<h3 class="group-title">🚗 Lead Funnel Performance (Automotive-Specific)</h3>
 			<div class="results-grid">
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Cost Per Lead (CPL)</div>
 					<div class="metric-value">$<span id="costPerLeadResult">0</span></div>
 					<div class="metric-explanation">Your actual cost to generate one qualified lead (from input).</div>
 				</div>
-				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card key-metric">
 					<div class="metric-label">Cost Per Appointment</div>
 					<div class="metric-value">$<span id="costPerAppointment">0</span></div>
 					<div class="metric-explanation">CPL ÷ Lead-to-Appointment Rate. What each scheduled visit costs.</div>
 				</div>
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Cost Per Showroom Visit</div>
 					<div class="metric-value">$<span id="costPerShowroomVisit">0</span></div>
 					<div class="metric-explanation">Cost for each customer who actually shows up at dealership.</div>
 				</div>
-				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95); border: 2px solid #667eea;">
+				<div class="result-card key-metric">
 					<div class="metric-label">Cost Per Sale</div>
-					<div class="metric-value" style="font-size: 2.2em; color: #667eea;">$<span id="costPerSaleResult">0</span></div>
+					<div class="metric-value">$<span id="costPerSaleResult">0</span></div>
 					<div class="metric-explanation">Total marketing cost to close one vehicle sale. Industry target: $500-$2,000.</div>
 				</div>
 			</div>
-			
+
 			<div class="results-grid" style="margin-top: 20px;">
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Monthly Lead Volume</div>
 					<div class="metric-value"><span id="monthlyLeadVolumeResult">0</span> leads</div>
 					<div class="metric-explanation">Total qualified leads per month (from input).</div>
 				</div>
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Monthly Appointments</div>
 					<div class="metric-value"><span id="monthlyAppointments">0</span> appts</div>
 					<div class="metric-explanation">Leads × Lead-to-Appointment Rate.</div>
 				</div>
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Monthly Showroom Visits</div>
 					<div class="metric-value"><span id="monthlyShowroomVisits">0</span> visits</div>
 					<div class="metric-explanation">Appointments × Show-Up Rate.</div>
 				</div>
-				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card key-metric">
 					<div class="metric-label">Monthly Vehicle Sales</div>
-					<div class="metric-value" style="color: #667eea;"><span id="monthlySalesResult">0</span> vehicles</div>
+					<div class="metric-value"><span id="monthlySalesResult">0</span> vehicles</div>
 					<div class="metric-explanation">Showroom Visits × Conversion Rate.</div>
 				</div>
 			</div>
-			
+
 			<div class="results-grid" style="margin-top: 20px;">
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Overall Lead-to-Sale Rate</div>
 					<div class="metric-value"><span id="overallLeadToSaleRate">0</span>%</div>
 					<div class="metric-explanation">Percentage of leads that become vehicle purchases. Industry: 2-5%.</div>
 				</div>
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Monthly Marketing Spend</div>
 					<div class="metric-value">$<span id="monthlyMarketingSpend">0</span></div>
 					<div class="metric-explanation">Leads × CPL = Total monthly ad spend.</div>
 				</div>
-				<div class="result-card" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card">
 					<div class="metric-label">Monthly Revenue</div>
 					<div class="metric-value">$<span id="monthlyRevenue">0</span></div>
 					<div class="metric-explanation">Monthly Sales × Average Vehicle Price.</div>
 				</div>
-				<div class="result-card key-metric" style="background: rgba(255,255,255,0.95);">
+				<div class="result-card key-metric">
 					<div class="metric-label">Actual ROAS</div>
 					<div class="metric-value"><span id="actualROAS">0</span>x</div>
 					<div class="metric-explanation">Revenue ÷ Marketing Spend. Shows real-world return.</div>
@@ -2191,22 +2191,22 @@
 			}
 
 			function resetForm() {
-				// Reset to New Subaru SUV Buyer defaults (strongest persona)
-				document.getElementById('aov').value = '34500';
+				// Reset to corrected Findlay Subaru Prescott defaults
+				document.getElementById('aov').value = '36500';
 				document.getElementById('taxRate').value = '8.6';
-				document.getElementById('returnRate').value = '0.05';
+				document.getElementById('returnRate').value = '3.0';
 				document.getElementById('cosPercent').value = '91';
 				document.getElementById('gaPercent').value = '10';
-				document.getElementById('fulfillmentCost').value = '950';
-				document.getElementById('returningCustomers').value = '35';
+				document.getElementById('fulfillmentCost').value = '1250';
+				document.getElementById('returningCustomers').value = '50';
 				document.getElementById('repeatOrderRate').value = '1.2';
 				document.getElementById('targetNetMargin').value = '4';
 				document.getElementById('backendProfit').value = '1500';
-				document.getElementById('serviceLTV').value = '3000';
+				document.getElementById('serviceLTV').value = '4800';
 
 				// Reset lead funnel fields
 				document.getElementById('costPerLead').value = '70';
-				document.getElementById('monthlyLeadVolume').value = '150';
+				document.getElementById('monthlyLeadVolume').value = '280';
 				document.getElementById('leadToApptRate').value = '28';
 				document.getElementById('apptShowRate').value = '68';
 				document.getElementById('testDriveRate').value = '80';
